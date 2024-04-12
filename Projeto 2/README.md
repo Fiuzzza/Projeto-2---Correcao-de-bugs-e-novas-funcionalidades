@@ -9,6 +9,7 @@ Este é um simples gerenciador de tarefas implementado em C. Ele permite criar, 
 - **Listar Tarefas:** Exibe todas as tarefas atualmente armazenadas, mostrando sua prioridade, categoria e descrição.
 - **Salvar Tarefas:** Salva todas as tarefas em um arquivo binário para persistência de dados.
 - **Carregar Tarefas:** Carrega as tarefas salvas anteriormente a partir de um arquivo binário.
+- **Exportar tarefas** Exportar tarefas para um arquivo de texto simples
 
 ## Como Usar
 
