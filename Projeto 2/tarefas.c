@@ -123,6 +123,45 @@ ERROS carregar(Tarefa tarefas[], int *pos){
 
 }
 
+ERROS exportar(Tarefa tarefas[], int *pos) {
+    if (*pos == 0)
+        return SEM_TAREFAS;
+
+    char nome_arquivo[100];
+    printf("Digite o nome do arquivo para exportar as tarefas: ");
+    fgets(nome_arquivo, 100, stdin);
+    nome_arquivo[strcspn(nome_arquivo, "\n")] = '\0'; 
+
+    FILE *arquivo = fopen(nome_arquivo, "w");
+    if (arquivo == NULL)
+        return ABRIR;
+
+    char categoria[100];
+    printf("Entre com a categoria que deseja exportar (deixe vazio para exportar todas): ");
+    fgets(categoria, 100, stdin);
+    categoria[strcspn(categoria, "\n")] = '\0'; 
+
+    int encontrou = 0; 
+
+    for (int i = 0; i < *pos; i++) {
+        if (categoria[0] == '\0' || strcmp(tarefas[i].categoria, categoria) == 0) {
+            encontrou = 1;
+            fprintf(arquivo, "Prioridade: %d\tCategoria: %s\tDescricao: %s\n", tarefas[i].prioridade, tarefas[i].categoria, tarefas[i].descricao);
+        }
+    }
+
+    fclose(arquivo);
+
+    if (!encontrou) {
+        if (categoria[0] == '\0')
+            printf("Nenhuma tarefa encontrada.\n");
+        else
+            printf("Nenhuma tarefa encontrada na categoria '%s'.\n", categoria);
+    }
+
+    return OK;
+}
+
 void clearBuffer(){
     int c;
     while ((c = getchar()) != '\n' && c != EOF);

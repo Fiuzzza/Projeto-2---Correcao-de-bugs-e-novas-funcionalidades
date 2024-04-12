@@ -2,15 +2,13 @@
 #include "tarefas.h"
 
 int main(){
-    funcao fs[] = {criar, deletar, listar, salvar, carregar};
+    funcao fs[] = {criar, deletar, listar, salvar, exportar, carregar}; 
 
     Tarefa tarefas[TOTAL];
     int pos;
-    ERROS erro = fs[4](tarefas, &pos); 
-    if(erro != OK) {
-        printf("Erro ao carregar tarefas. Código de erro: %d\n", erro);
-        return 1; 
-    }
+    ERROS erro = fs[5](tarefas, &pos); 
+    if(erro != OK)
+        pos = 0;
 
     int opcao;
     do{
@@ -18,11 +16,14 @@ int main(){
         printf("1 - Criar tarefa\n");
         printf("2 - Deletar tarefa\n");
         printf("3 - Listar tarefas\n");
+        printf("4 - Exportar tarefas\n");
+        printf("5 - Carregar tarefas do arquivo binario\n"); 
+        printf("6 - Salvar tarefas no arquivo binario\n"); 
         printf("0 - Sair\n");
         printf("Escolha uma opcao: ");
 
         scanf("%d", &opcao);
-        if(opcao < 0 || opcao > 3) {
+        if(opcao < 0 || opcao > 6) {
             printf("Opcao invalida\n");
             continue;
         }
@@ -36,12 +37,13 @@ int main(){
             printf("Erro ao executar a operacao. Código de erro: %d\n", erro);
         }
 
-    } while(opcao != 0);
+    } while(opcao >= 0);
 
-    erro = fs[3](tarefas, &pos); 
-    if(erro != OK) {
-        printf("Erro ao salvar tarefas. Código de erro: %d\n", erro);
-        return 1; 
+    if (opcao == 0 || opcao == 4 || opcao == 5 || opcao == 6) { 
+        erro = fs[opcao](tarefas, &pos);
+        if(erro != OK) {
+            printf("Erro ao executar a operacao. Código de erro: %d\n", erro);
+        }
     }
 
     return 0; 
