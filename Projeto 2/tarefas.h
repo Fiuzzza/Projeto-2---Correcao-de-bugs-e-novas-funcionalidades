@@ -1,6 +1,9 @@
+#ifndef TAREFAS_H
+#define TAREFAS_H
+
 #define TOTAL 100
-#define TAMANHO_CATEGORIA 100
 #define TAMANHO_DESCRICAO 300
+#define TAMANHO_CATEGORIA 100
 
 typedef struct {
     int prioridade;
@@ -21,3 +24,4 @@ ERROS exportar(Tarefa tarefas[], int *pos);
 
 void clearBuffer();
 
+#endif 

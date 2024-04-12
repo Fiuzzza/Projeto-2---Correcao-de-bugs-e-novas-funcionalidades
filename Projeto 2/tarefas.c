@@ -9,7 +9,7 @@ ERROS criar(Tarefa tarefas[], int *pos){
     printf("Entre com a prioridade (entre 1 e 10): ");
     scanf("%d", &tarefas[*pos].prioridade);
     clearBuffer();
-    
+
     if(tarefas[*pos].prioridade < 1 || tarefas[*pos].prioridade > 10) {
         printf("Prioridade deve estar entre 1 e 10.\n");
         return OK; 
@@ -18,7 +18,7 @@ ERROS criar(Tarefa tarefas[], int *pos){
     printf("Entre com a categoria: ");
     fgets(tarefas[*pos].categoria, TAMANHO_CATEGORIA, stdin);
     tarefas[*pos].categoria[strcspn(tarefas[*pos].categoria, "\n")] = '\0'; 
-    
+
     printf("Entre com a descricao: ");
     fgets(tarefas[*pos].descricao, TAMANHO_DESCRICAO, stdin);
     tarefas[*pos].descricao[strcspn(tarefas[*pos].descricao, "\n")] = '\0'; 
@@ -129,35 +129,17 @@ ERROS exportar(Tarefa tarefas[], int *pos) {
 
     char nome_arquivo[100];
     printf("Digite o nome do arquivo para exportar as tarefas: ");
-    fgets(nome_arquivo, 100, stdin);
-    nome_arquivo[strcspn(nome_arquivo, "\n")] = '\0'; 
+    scanf("%s", nome_arquivo);
 
     FILE *arquivo = fopen(nome_arquivo, "w");
     if (arquivo == NULL)
         return ABRIR;
 
-    char categoria[100];
-    printf("Entre com a categoria que deseja exportar (deixe vazio para exportar todas): ");
-    fgets(categoria, 100, stdin);
-    categoria[strcspn(categoria, "\n")] = '\0'; 
-
-    int encontrou = 0; 
-
     for (int i = 0; i < *pos; i++) {
-        if (categoria[0] == '\0' || strcmp(tarefas[i].categoria, categoria) == 0) {
-            encontrou = 1;
-            fprintf(arquivo, "Prioridade: %d\tCategoria: %s\tDescricao: %s\n", tarefas[i].prioridade, tarefas[i].categoria, tarefas[i].descricao);
-        }
+        fprintf(arquivo, "Prioridade: %d\tCategoria: %s\tDescricao: %s\n", tarefas[i].prioridade, tarefas[i].categoria, tarefas[i].descricao);
     }
 
     fclose(arquivo);
-
-    if (!encontrou) {
-        if (categoria[0] == '\0')
-            printf("Nenhuma tarefa encontrada.\n");
-        else
-            printf("Nenhuma tarefa encontrada na categoria '%s'.\n", categoria);
-    }
 
     return OK;
 }
